@@ -7,6 +7,7 @@
     <!-- fontawsome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v3.1.0/css/all.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/v4-shims.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
 
     <!-- jquery 버전 유의 -->
     <!-- slim/jquery, 3.1.0 윗 버전에서 ajax가 작동하지 않는 오류 확인 -->
@@ -18,46 +19,146 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 
 </head>
-<body>
+<header class="header01"  style="width:1960px;">
+    <h1><span style="height:120px;"><img src="https://www.ajou.ac.kr/_res/ajou/kr/img/intro/img-symbol.png" alt="ajou-image" style="max-width:100%; height:100%;" />내 손안의 투표</span></h1>
+    <span id="XX-LargeP" style="height:65px;">&nbsp; &nbsp; B</span>
+        <span id="X-LargeP" style="height:50px;">Voting</span>
+        <span id="smallP">&nbsp; &nbsp; BlockChain_Voting</span>
+    <div>    
+        <nav style="padding: 0px 10px 0px 1000px;">
+        <button  button type="button" class="btn btn-secondary" id="vote_btn01" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/index.html' ">투표하기</button>
+        <button  button type="button" class="btn btn-secondary" id="vote btn02" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/voting_result.html' ">투표결과 보기</button>
+        </nav>
+    </div>
+    <hr>
+</header>
+<body style="text-align: center;">
     <div class="container">
+        <div class="body01">
+        </div>
         <!-- 인풋 폼 -->
         <!-- 타이틀부 -->
         <div class="row justify-content-md-center">
             <!-- <i class="fas fa-surprise" style="font-size: 150px;color:gainsboro"></i> -->
-            <div class="col-lg">
-                <h1>Hyperledger Fabric 기반 투표시스템</h1>
-                <hr>
-            </div> 
+
         </div>
         <!-- 투표 등록부 -->
         <div class="row justify-content-md-center">
             <div class="col-lg">
                 <div id="register-result"></div>
-                <h3>투표 </h3>
-                후보자 <br><input type="radio" id="candidate" value="1" >1. 오한수<br>
-                <br><input type="radio" id="candidate" value="2" >2. 최재호<br>
-                <br><input type="radio" id="candidate" value="3" >기권<br>
+                <br><br><h1 id="center_sort">2023 대선 투표</h1><br><br>
+
+                <div class="card-group">
+                    <div class="card">
+                      <img id="img" src="https://w7.pngwing.com/pngs/299/683/png-transparent-button-computer-icons-arrow-white-addition-number-1-icon-text-logo-number-thumbnail.png" class="card-img-top" alt="card-img-01" >
+                      <div class="card-body">
+                        <h5 class="card-title">오한수</h5>
+                        <p class="card-text">안녕하세요.</p>
+                        <p class="card-text">기호 1번 오한수입니다.</p>
+                      </div>
+                      <div class="card-footer">
+                            <div class="form-check">
+                                <input type="radio" id="cancd didate" value="1" name="human"><small class="text-muted">&nbsp;&nbsp; 한수 정당</small>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <img id="img" src="https://w7.pngwing.com/pngs/423/1003/png-transparent-number-2-computer-icons-desktop-number-2-two-icon-miscellaneous-text-trademark-thumbnail.png" class="card-img-top" alt="card-img-02">
+                      <div class="card-body">
+                        <h5 class="card-title">최재호</h5>
+                        <p class="card-text">안녕하세요.</p>
+                        <p class="card-text"></p>기호2번 최재호입니다.</p>
+                      </div>
+                      <div class="card-footer">
+                            <div class="form-check">
+                                <input type="radio" id="candidate" value="2" name="human"><small class="text-muted">&nbsp;&nbsp; 재호 정당</small>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <img id="img" src="https://w7.pngwing.com/pngs/385/780/png-transparent-red-x-illustration-x-mark-check-mark-wrong-sign-angle-symmetry-cross-thumbnail.png" class="card-img-top" alt="card-img-03">
+                      <div class="card-body">
+                        <h5 class="card-title">기권</h5>
+                        <p class="card-text">기권 투표.</p>
+                      </div>
+                      <div class="card-footer">
+                        <input type="radio" id="candidate" value="3" name="human" checked="default"><small class="text-muted">&nbsp;&nbsp;기권</small>
+                      </div>
+                    </div>
+                  </div>
+                <br>
                 <br>투표장: 원천동주민센터 <br>
-                <button class="btn btn-primary" id="vote_btn">투표 완료</button>
+                <br><br>
+                <button class="btn btn-primary" id="vote_btn03">투표 완료</button>
                 <br><br>
             </div>   
         </div>
 
 </body>
+<style>
+    .body01 {
+        padding-top: 100px;
+    }
+
+    .header01 {
+        position: fixed;
+        height: 10%;
+        padding: 1rem;
+        background-color: rgba(135, 135, 135, 0.8);
+        align-items: center;
+        display:flex;
+        justify-content: space-between;
+        z-index: 999;
+        top: 0%;
+        left: 0%;
+        right: 0%;
+    }
+
+    .import{
+        background-color: rgb(8,250, 36);
+        font-size: large;
+    }
+    #smallP{
+        font-size: 80%;
+    }
+    #X-LargeP{
+        font-size: 150%;
+    }
+    #XX-LargeP{
+        font-size: 200%;
+    }
+    .my_gradient_1 {
+        background-image: linear-gradient(to right, rgb(100, 175, 236), rgb(77, 77, 240));
+    }
+    #center_sort {
+        float: center;
+    }
+    #img {
+        width: 170px;
+        height: 170px;
+        object-fit: cover;
+        float: center;
+        position:relative;
+        left: 23%;
+        
+}
+
+
+</style>
 <script>
     const date = new Date();
      count = 0;
     // 투표버튼 이벤트
-    $("#vote_btn").click(()=>{
+    $("#vote_btn03").click(()=>{
         const VotedCandidateID = $("#candidate").val();
-        console.log(candidate)
+        console.log(VotedCandidateID)
         const Location = "원천동주민센터";
         const Time = date.toString();
         const url = "/vote"
         //console.log(param)
 
         // email이라는 파라메터에 위의 value를 넣음
-        $.post(url, {RandomNo:null, VotedCandidateID: VotedCandidateID, Location:Location, Time:Time}, (data,status)=>{
+        $.post(url, {RandomNo:null, VotedCandidateID:VotedCandidateID, Location:Location, Time:Time}, (data,status)=>{
             // http 상태 코드가 200(success)이라면
             if(status == "success"){
                 // 성공했다는 alert창을 띄움

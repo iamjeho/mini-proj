@@ -16,7 +16,7 @@ type SmartContract struct {
 type Voter struct {
 	RandomNo       string `json:"RandomNo"`
 	VotedCandidateID string `json:"VotedCandidateID"`
-	location 	string `json:"Location"`
+	Location 	string `json:"Location"`
 	Time	 string `json:"Time"`
 
 }
@@ -36,6 +36,11 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 		Candidate{CandidateID: "3", Name: "기권", TotalVote: 0},
 	}
 
+	voters := []Voter{
+			Voter{RandomNo: "NULL", VotedCandidateID: "NULL", Location: "NULL", Time: "NULL"},
+	}
+
+
 	for _, candidate:= range candidates {
 		candidateJSON, err := json.Marshal(candidate)
 		if err != nil {
@@ -48,32 +53,44 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 		}
 	}
 
+	for _, voter:= range voters {
+		voterJSON, err := json.Marshal(voter)
+		if err != nil {
+			return err
+		}
+
+		err = ctx.GetStub().PutState(voter.RandomNo, voterJSON)
+		if err != nil {
+			return fmt.Errorf("failed to put to world state. %v", err)
+		}
+	}
+
 	return nil
 }
 
-func (s *SmartContract) addVote(ctx contractapi.TransactionContextInterface, RandomNo string, VotedCandidateID string, Location string, Time string) error {
+func (s *SmartContract) CreateAsset (ctx contractapi.TransactionContextInterface, RandomNo string, VotedCandidateID string, Location string, Time string) error {
 	fmt.Println("=============== Start Add Vote =============== ")
 
-	candidateID := VotedCandidateID
+	CandidateID := VotedCandidateID // 투표한 후보자 id를 CandidateID에 저장
 
-	voterAsBytes, err := ctx.GetStub().GetState("VOTER" + RandomNo)
-	candidateAsBytes, err := ctx.GetStub().GetState("CANDIDATE" + candidateID)
+	voterAsBytes, err := ctx.GetStub().GetState("VOTER"+RandomNo) // 
+	candidateAsBytes, err := ctx.GetStub().GetState("CANDIDATE"+CandidateID)
 
 	if err != nil {
 		return fmt.Errorf(err.Error())
 	}
 
-	voter := Voter{}
-	candidate := Candidate{}
+	voter := Voter{} // Voter 구조체 voter로
+	candidate := Candidate{} // Candidate 구조체 canditate로 
 
-	json.Unmarshal(voterAsBytes, &voter)
+	json.Unmarshal(voterAsBytes, &voter) 
 	json.Unmarshal(candidateAsBytes, &candidate)
 
 	if voter.VotedCandidateID != "" {
 		return fmt.Errorf("Voter already voted a candidate")
 	}
 
-	voter.VotedCandidateID = candidateID
+	voter.VotedCandidateID = CandidateID
 	candidate.TotalVote++
 
 	voterByBytes, _ := json.Marshal(voter)

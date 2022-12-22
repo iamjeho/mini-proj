@@ -115,7 +115,8 @@ async function submit(args, res) {
 // Get the contract from the network.
         const contract = network.getContract("basic");
         args[0] = RandomNo
-        await contract.submitTransaction("addVote", args[0], args[1], args[2], args[3]);
+        await contract.submitTransaction('CreateAsset', args[0], args[1], args[2], args[3]);
+        console.log(args[1])
 
         console.log("Transaction has been submitted");
         // Disconnect from the gateway.
@@ -137,7 +138,6 @@ app.post('/vote', async(req, res)=>{
     const Location = req.body.Location;
     const Time = req.body.Time;
         // (TO DO) 오류체크 -> 각 변수가 주어진 형식에 맞게 전달되었는지?
-        
 
     submit([RandomNo, VotedCandidateID, Location, Time])
     

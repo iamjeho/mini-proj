@@ -1,0 +1,8 @@
+#animations-example-5 .highlighted {
+    animation: highlighted-bar 1s linear infinite;
+  }
+  @keyframes highlighted-bar {
+    0%   { box-shadow: none; }
+    50%  { box-shadow: 0 0 1px 0 black, 0 0 20px 5px darkgrey; }
+    100% { box-shadow: none; }
+  }
