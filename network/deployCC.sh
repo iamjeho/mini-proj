@@ -158,13 +158,13 @@ peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name ${CC_NA
 ## TEST1 : Invoking the chaincode
 infoln "TEST1 : Invoking the chaincode"
 set -x
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n ${CC_NAME} $PEER_CONN_PARMS -c '{"function":"InitLedger","Args":[]}' >&log.txt
+peer chaincode invoke -o localhost:7050 -          -ordererTLSHostnameOverride orderer.example.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n ${CC_NAME} $PEER_CONN_PARMS -c '{"function":"InitLedger","Args":[]}' >&log.txt
 { set +x; } 2>/dev/null
 cat log.txt
 sleep 3
 
-## TEST2 : Query the chaincode
-infoln "TEST2 : Query the chaincode"
+## TEST3 : Query the chaincode
+infoln "TEST3 : Query the chaincode"
 set -x
 peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["GetAllAssets"]}' >&log.txt
 { set +x; } 2>/dev/null

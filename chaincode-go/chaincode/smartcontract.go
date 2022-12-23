@@ -12,54 +12,48 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
-// Asset describes basic details of what makes up a simple asset
-type Voter struct {
+// Asset describes basic details of what makes up a simple asset  
+type Voter struct { 
 	RandomNo       string `json:"RandomNo"`
 	VotedCandidateID string `json:"VotedCandidateID"`
 	Location 	string `json:"Location"`
 	Time	 string `json:"Time"`
-
 }
 
-// Candidate defined as struct
 type Candidate struct {
-	CandidateID string `json:"CandidateID"`
-	Name        string `json:"Name"`
-	TotalVote   int    `json:"TotalVote"`
-}
+	CandidateNo	 string `json:"CandidateNo"`
+	VoteCount int       `json:"VoteCount"`
+}                 
 
 // InitLedger adds a base set of assets to the ledger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
-	candidates := []Candidate{
-		Candidate{CandidateID: "1", Name: "오한수", TotalVote: 0},
-		Candidate{CandidateID: "2", Name: "최재호", TotalVote: 0},
-		Candidate{CandidateID: "3", Name: "기권", TotalVote: 0},
+/* 	assets := []Voter{
+		{RandomNo: "NULL", VotedCandidateID: "NULL", Location: "NULL", Time: "NULL"},
 	}
-
-	voters := []Voter{
-			Voter{RandomNo: "NULL", VotedCandidateID: "NULL", Location: "NULL", Time: "NULL"},
-	}
-
-
-	for _, candidate:= range candidates {
-		candidateJSON, err := json.Marshal(candidate)
+	for _, asset := range assets {
+		assetJSON, err := json.Marshal(asset)
 		if err != nil {
 			return err
 		}
 
-		err = ctx.GetStub().PutState(candidate.CandidateID, candidateJSON)
+		err = ctx.GetStub().PutState(asset.RandomNo, assetJSON)
 		if err != nil {
 			return fmt.Errorf("failed to put to world state. %v", err)
 		}
+	} */
+
+	candidates := []Candidate{
+		{CandidateNo: "1", VoteCount: 0}, // 오한수
+		{CandidateNo: "2", VoteCount: 0}, // 최재호
+		{CandidateNo: "3", VoteCount: 0}, // 기권
 	}
 
-	for _, voter:= range voters {
-		voterJSON, err := json.Marshal(voter)
+	for _, candidateAsBytes := range candidates {
+		candidateJSON, err := json.Marshal(candidateAsBytes)
 		if err != nil {
 			return err
 		}
-
-		err = ctx.GetStub().PutState(voter.RandomNo, voterJSON)
+		err = ctx.GetStub().PutState(candidateAsBytes.CandidateNo, candidateJSON)
 		if err != nil {
 			return fmt.Errorf("failed to put to world state. %v", err)
 		}
@@ -68,44 +62,70 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	return nil
 }
 
-func (s *SmartContract) CreateAsset (ctx contractapi.TransactionContextInterface, RandomNo string, VotedCandidateID string, Location string, Time string) error {
+func (e *SmartContract) RegisterVoter(ctx contractapi.TransactionContextInterface, RandomNo string, VotedCandidateID string, Location string, Time string) error {
+	fmt.Println("=============== Start Register Voter =============== ")
+
+	randomNo := RandomNo
+	location := Location
+	time := Time
+	votedCandidateID := VotedCandidateID
+
+	voter := Voter{RandomNo: randomNo, Location: location, Time: time, VotedCandidateID: votedCandidateID}
+
+	voterAsBytes, err := json.Marshal(voter)
+	err = ctx.GetStub().PutState(voter.RandomNo, voterAsBytes)
+	if err != nil {
+		return fmt.Errorf("failed to put to world state. %v", err)
+	}
+	
+	return nil
+}
+
+ func (e *SmartContract) AddVote(ctx contractapi.TransactionContextInterface, CandidateNo string) error {
 	fmt.Println("=============== Start Add Vote =============== ")
-
-	CandidateID := VotedCandidateID // 투표한 후보자 id를 CandidateID에 저장
-
-	voterAsBytes, err := ctx.GetStub().GetState("VOTER"+RandomNo) // 
-	candidateAsBytes, err := ctx.GetStub().GetState("CANDIDATE"+CandidateID)
+	
+	candidateAsBytes, err := ctx.GetStub().GetState(CandidateNo)
 
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return fmt.Errorf("faild: %v", err)
 	}
 
-	voter := Voter{} // Voter 구조체 voter로
-	candidate := Candidate{} // Candidate 구조체 canditate로 
+	candidate := Candidate{}
 
-	json.Unmarshal(voterAsBytes, &voter) 
 	json.Unmarshal(candidateAsBytes, &candidate)
 
-	if voter.VotedCandidateID != "" {
-		return fmt.Errorf("Voter already voted a candidate")
-	}
+	candidate.CandidateNo = CandidateNo
+	candidate.VoteCount++
 
-	voter.VotedCandidateID = CandidateID
-	candidate.TotalVote++
-
-	voterByBytes, _ := json.Marshal(voter)
-	candidateByBytes, _ := json.Marshal(candidate)
-
-	err = ctx.GetStub().PutState("VOTER"+voter.RandomNo, voterByBytes)
-	err = ctx.GetStub().PutState("CANDIDATE"+candidate.CandidateID, candidateByBytes)
-
+	candidateByBytes, err := json.Marshal(candidate)
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return fmt.Errorf("faild: %v", err)
 	}
 
-	fmt.Println("=============== End Add Vote =============== ")
+	err =  ctx.GetStub().PutState(CandidateNo, candidateByBytes)
+	if err != nil {
+		return fmt.Errorf("failed to put to world state. %v", err)
+	}
 	return nil
 }
+
+/* // CreateAsset issues a new asset to the world state with given details.
+func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, RandomNo string, VotedCandidateID string, Location string, Time string) error {
+	asset := Voter{
+
+		RandomNo: RandomNo,
+		VotedCandidateID: VotedCandidateID,
+		Location:  Location,
+		Time:      Time,
+	}
+	assetJSON, err := json.Marshal(asset)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutState(RandomNo, assetJSON)
+}
+ */
 
 /* // CreateAsset issues a new asset to the world state with given details.
 func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, id string, v_num int, c_name string, location string, time string) error {
@@ -190,7 +210,7 @@ func (s *SmartContract) DeleteAsset(ctx contractapi.TransactionContextInterface,
 	return ctx.GetStub().DelState(id)
 }
 
-// AssetExists returns true when asset with given ID exists in world state
+AssetExists returns true when asset with given ID exists in world state
 func (s *SmartContract) AssetExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
 	assetJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
@@ -216,6 +236,54 @@ func (s *SmartContract) TransferAsset(ctx contractapi.TransactionContextInterfac
 	return ctx.GetStub().PutState(id, assetJSON)
 }
  */
+func (smartcontract *SmartContract) QueryCandidate(ctx contractapi.TransactionContextInterface, CandidateNo string) (*Candidate, error) {
+	fmt.Println("=============== Start Query Candidate =============== ")
+
+	candidateAsBytes, err := ctx.GetStub().GetState(CandidateNo)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if candidateAsBytes == nil {
+		return nil, err
+	}
+
+	candidate := new(Candidate)
+	_ = json.Unmarshal(candidateAsBytes, candidate)
+
+	return candidate, nil
+}
+
+
+ func (s *SmartContract) GetAllVoters(ctx contractapi.TransactionContextInterface) ([]*Voter, error) {
+	// range query with empty string for startKey and endKey does an
+	// open-ended query of all assets in the chaincode namespace.
+	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+
+	var assets2 []*Voter
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return nil, err
+		}
+
+		var asset2 Voter   
+		err = json.Unmarshal(queryResponse.Value, &asset2)
+		if err != nil {
+			return nil, err
+		}
+		assets2 = append(assets2, &asset2)
+	}
+
+	return assets2, nil
+}
+
+
 // GetAllAssets returns all assets found in world state
 func (s *SmartContract) GetAllAssets(ctx contractapi.TransactionContextInterface) ([]*Candidate, error) {
 	// range query with empty string for startKey and endKey does an
@@ -226,20 +294,20 @@ func (s *SmartContract) GetAllAssets(ctx contractapi.TransactionContextInterface
 	}
 	defer resultsIterator.Close()
 
-	var candidates []*Candidate
+	var assets []*Candidate
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
 			return nil, err
 		}
 
-		var candidate Candidate
-		err = json.Unmarshal(queryResponse.Value, &candidate)
+		var asset Candidate   
+		err = json.Unmarshal(queryResponse.Value, &asset)
 		if err != nil {
 			return nil, err
 		}
-		candidates = append(candidates, &candidate) 
+		assets = append(assets, &asset)
 	}
 
-	return candidates, nil
+	return assets, nil
 }

@@ -8,7 +8,7 @@ const FabricCAServices = require("fabric-ca-client");
 const { Gateway, Wallets } = require("fabric-network");
 
 // 서버설정
-const PORT = 8000;
+const PORT = 5500;
 const HOST = '0.0.0.0';
 
 // use static file
@@ -115,10 +115,22 @@ async function submit(args, res) {
 // Get the contract from the network.
         const contract = network.getContract("basic");
         args[0] = RandomNo
-        await contract.submitTransaction('CreateAsset', args[0], args[1], args[2], args[3]);
         console.log(args[1])
-
+        console.log(args[3])
+        await contract.submitTransaction('RegisterVoter', args[0], args[1], args[2], args[3]);
+        await contract.submitTransaction('AddVote', args[1]);
         console.log("Transaction has been submitted");
+
+        const json1 =  await contract.evaluateTransaction('QueryCandidate', '1');
+        const json2 =  await contract.evaluateTransaction('QueryCandidate', '2');
+        const json3 = await contract.evaluateTransaction('QueryCandidate', '3');
+    
+        JSON.parse(json1, (key, value) => {
+
+            console.log(value)
+        })
+
+
         // Disconnect from the gateway.
     } catch (error) {
         console.error(`Failed ": ${error}`);
@@ -144,6 +156,7 @@ app.post('/vote', async(req, res)=>{
     const status = {result: "success"}
     res.status(200).json(status) 
 })
+
 
 // 서버시작
 app.listen(PORT, HOST);

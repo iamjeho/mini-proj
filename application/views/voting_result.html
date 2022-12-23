@@ -28,10 +28,7 @@
         <span id="X-LargeP" style="height:50px;">Voting</span>
         <span id="smallP">&nbsp; &nbsp; BlockChain_Voting</span>
     <div>    
-        <nav style="padding: 0px 10px 0px 1000px;">
-        <button  button type="button" class="btn btn-secondary" id="vote_btn01" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/index.html' ">투표하기</button>
-        <button  button type="button" class="btn btn-secondary" id="vote btn02" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/voting_result.html' ">투표결과 보기</button>
-        </nav>
+        <nav style="padding: 0px 10px 0px 1000px;"></nav>
     </div>
     <hr>
 </header>
@@ -54,13 +51,13 @@
                         <table class="charts-css column data-spacing-20">
                             <tbody>
                             <tr>
-                                <td style="--size: calc( 40 / 100 ); --color: rgba(58, 141, 242, 0.84);"> 오한수 </span> </td>
+                                <td style="--size: calc( ${VoteCount_arr[0]} / ${resultsum} ); --color: rgba(58, 141, 242, 0.84);"> 오한수 </span> </td>
                             </tr>
                             <tr>
-                                <td style="--size: calc( 60 / 100 ); --color: rgba(242, 129, 58, 0.84);" > 최재호 </span> </td>
+                                <td style="--size: calc( ${VoteCount_arr[1]} / ${resultsum} ); --color: rgba(242, 129, 58, 0.84);" > 최재호 </span> </td>
                             </tr>
                             <tr>
-                                <td style="--size: calc( 100 / 100 ); --color: rgba(153, 150, 148, 0.84);" class="highlighted"> 기권 </span> </td>
+                                <td style="--size: calc( ${VoteCount_arr[2]} / ${resultsum} ); --color: rgba(153, 150, 148, 0.84);" class="highlighted"> 기권 </span> </td>
                             </tr>
                             </tbody>
                         </table>
@@ -128,6 +125,25 @@
 
 </style>
 <script>
+const url = "/result"
+const result1 = 0
+const result2 = 0
+const result3 = 0 
+const VoteCount_arr = new Array()
+const http = require('http');
+
+const options = {
+  hostname: 'localhost',
+  port: 5050,
+  path: '/request',
+  method: 'GET',
+};
+
+
+
+console.log(req.body.VoteCount_arr)
+const resultsum = VoteCount_arr[0] + VoteCount_arr[1] + VoteCount_arr[2]
+
 
 </script>
 </html>

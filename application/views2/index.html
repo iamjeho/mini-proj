@@ -1,0 +1,155 @@
+<html>
+<head>
+    <!-- 외부모듈추가 -->
+    <!-- Bootstrap include -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+
+    <!-- fontawsome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v3.1.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/v4-shims.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+    <link rel="stylesheet" href="./mystyle.css">
+    
+
+    <!-- jquery 버전 유의 -->
+    <!-- slim/jquery, 3.1.0 윗 버전에서 ajax가 작동하지 않는 오류 확인 -->
+    <!-- Bootstrap의 CDN을 copy&paste 하되 Line 8의 버전만 3.1.0으로 수정하세요 -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+
+</head>
+<header class="header01"  style="width:1960px;">
+    <h1><span style="height:120px;"><img src="https://www.ajou.ac.kr/_res/ajou/kr/img/intro/img-symbol.png" alt="ajou-image" style="max-width:100%; height:100%;" />내 손안의 투표</span></h1>
+    <span id="XX-LargeP" style="height:65px;">&nbsp; &nbsp; B</span>
+        <span id="X-LargeP" style="height:50px;">Voting</span>
+        <span id="smallP">&nbsp; &nbsp; BlockChain_Voting</span>
+    <div>    
+        <nav style="padding: 0px 10px 0px 1000px;">
+        <button  button type="button" class="btn btn-secondary" id="vote_btn01" onclick = "location.href = 'http://127.0.0.1:5500/index.html' ">투표하기</button>
+        <button  button type="button" class="btn btn-secondary" id="vote_btn02" onclick = "location.href = 'http://127.0.0.1:5500/voting_result.html' ">투표결과 보기</button>
+        </nav>
+    </div>
+    <hr>
+</header>
+<body style="text-align: center;">
+    <div class="container">
+        <div class="body01">
+        </div>
+        <!-- 인풋 폼 -->
+        <!-- 타이틀부 -->
+        <div class="row justify-content-md-center">
+            <!-- <i class="fas fa-surprise" style="font-size: 150px;color:gainsboro"></i> -->
+        </div>
+        <!-- 투표 등록부 -->
+        <div class="row justify-content-md-center">
+            <div class="col-lg">
+                <div id="register-result"></div>
+                <br><br><h1 id="center_sort">2023 대선 투표</h1><br><br>
+
+                    <div id="animations-example-5" style=" max-width:70%; height:70%; margin:auto;">
+                        <table class="charts-css column data-spacing-20">
+                            <tbody>
+                            <tr>
+                                <td style="--size: calc( 40 / 100 ); --color: rgba(58, 141, 242, 0.84);"> 오한수 </span> </td>
+                            </tr>
+                            <tr>
+                                <td style="--size: calc( 60 / 100 ); --color: rgba(242, 129, 58, 0.84);" > 최재호 </span> </td>
+                            </tr>
+                            <tr>
+                                <td style="--size: calc( 100 / 100 ); --color: rgba(153, 150, 148, 0.84);" class="highlighted"> 기권 </span> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>    
+
+                <br>
+                <br>투표장: 원천동주민센터 <br>
+                <br><br>
+        </div>
+
+</body>
+<style>
+    .body01 {
+        padding-top: 100px;
+    }
+
+    .header01 {
+        position: fixed;
+        height: 10%;
+        padding: 1rem;
+        background-color: rgba(135, 135, 135, 0.8);
+        align-items: center;
+        display:flex;
+        justify-content: space-between;
+        z-index: 999;
+        top: 0%;
+        left: 0%;
+        right: 0%;
+    }
+
+    .import{
+        background-color: rgb(8,250, 36);
+        font-size: large;
+    }
+    #smallP{
+        font-size: 80%;
+    }
+    #X-LargeP{
+        font-size: 150%;
+    }
+    #XX-LargeP{
+        font-size: 200%;
+    }
+    .my_gradient_1 {
+        background-image: linear-gradient(to right, rgb(100, 175, 236), rgb(77, 77, 240));
+    }
+    #center_sort {
+        float: center;
+    }
+    #img {
+        width: 170px;
+        height: 170px;
+        object-fit: cover;
+        float: center;
+        position:relative;
+        left: 23%
+    }
+    #my-pie-chart {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+    }
+    
+
+
+</style>
+<script>
+const url = "/result"
+const reult1 = 0
+const result2 = 0
+const result3 = 0
+const resultsum = reult1+result2+result3
+
+
+ $.post(url, {Result1:reult1, Result2:result2}, (data,status)=>{
+            // http 상태 코드가 200(success)이라면
+            if(status == "success"){
+                // 성공했다는 alert창을 띄움
+                $('#register-result').empty();
+                $('#register-result').fadeIn(500);
+                $('#register-result').append("<div id='success' class='alert alert-success'>투표가 완료되었습니다.</div>");
+                $('#register-result').fadeOut(4000);
+            }
+            else{
+                $('#register-result').empty();
+                $('#register-result').fadeIn(500);
+                $('#register-result').append("<div id='fail' class='alert alert-fail'>wrong.</div>");
+                $('#register-result').fadeOut(4000);
+            }
+    })
+</script>
+</html>

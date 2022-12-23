@@ -25,15 +25,13 @@
         <span id="X-LargeP" style="height:50px;">Voting</span>
         <span id="smallP">&nbsp; &nbsp; BlockChain_Voting</span>
     <div>    
-        <nav style="padding: 0px 10px 0px 1000px;">
-        <button  button type="button" class="btn btn-secondary" id="vote_btn01" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/index.html' ">투표하기</button>
-        <button  button type="button" class="btn btn-secondary" id="vote btn02" onclick = "location.href = 'http://127.0.0.1:5500/hyperledger/application/views/voting_result.html' ">투표결과 보기</button>
-        </nav>
+        <ul class="nav justify-content-end" style="padding: 0px 10px 0px 1000px;">
+        </ul>
     </div>
     <hr>
 </header>
 <body style="text-align: center;">
-    <div class="container">
+    <div class="container-fluid">
         <div class="body01">
         </div>
         <!-- 인풋 폼 -->
@@ -47,50 +45,49 @@
             <div class="col-lg">
                 <div id="register-result"></div>
                 <br><br><h1 id="center_sort">2023 대선 투표</h1><br><br>
-
-                <div class="card-group">
-                    <div class="card">
-                      <img id="img" src="https://w7.pngwing.com/pngs/299/683/png-transparent-button-computer-icons-arrow-white-addition-number-1-icon-text-logo-number-thumbnail.png" class="card-img-top" alt="card-img-01" >
-                      <div class="card-body">
-                        <h5 class="card-title">오한수</h5>
-                        <p class="card-text">안녕하세요.</p>
-                        <p class="card-text">기호 1번 오한수입니다.</p>
-                      </div>
-                      <div class="card-footer">
-                            <div class="form-check">
-                                <input type="radio" id="cancd didate" value="1" name="human"><small class="text-muted">&nbsp;&nbsp; 한수 정당</small>
+                    <div class="card-group">
+                        <div class="card">
+                            <img id="img" src="https://www.ajou.ac.kr/_res/ajou/kr/img/intro/img-symbol.png" class="card-img-top" alt="card-img-01" >
+                            <div class="card-body">
+                                <h5 class="card-title">오한수</h5>
+                                <p class="card-text">안녕하세요.</p>
+                                <p class="card-text">기호 1번 오한수입니다.</p>
                             </div>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <img id="img" src="https://w7.pngwing.com/pngs/423/1003/png-transparent-number-2-computer-icons-desktop-number-2-two-icon-miscellaneous-text-trademark-thumbnail.png" class="card-img-top" alt="card-img-02">
-                      <div class="card-body">
-                        <h5 class="card-title">최재호</h5>
-                        <p class="card-text">안녕하세요.</p>
-                        <p class="card-text"></p>기호2번 최재호입니다.</p>
-                      </div>
-                      <div class="card-footer">
+                        <div class="card-footer">
                             <div class="form-check">
-                                <input type="radio" id="candidate" value="2" name="human"><small class="text-muted">&nbsp;&nbsp; 재호 정당</small>
+                                <input type="radio" id="candidate" value="1" name="human"><small class="text-muted">&nbsp;&nbsp; 한수 정당</small>
                             </div>
-                      </div>
+                        </div>
+                        </div>
+                        <div class="card">
+                            <img id="img" src="https://www.ajou.ac.kr/_res/ajou/kr/img/intro/img-symbol.png" class="card-img-top" alt="card-img-02">
+                            <div class="card-body">
+                                <h5 class="card-title">최재호</h5>
+                                <p class="card-text">안녕하세요.</p>
+                                <p class="card-text"></p>기호2번 최재호입니다.</p>
+                            </div>
+                        <div class="card-footer">
+                                <div class="form-check">
+                                    <input type="radio" id="candidate" value="2" name="human"><small class="text-muted">&nbsp;&nbsp; 재호 정당</small>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="card">
+                            <img id="img" src="https://www.ajou.ac.kr/_res/ajou/kr/img/intro/img-symbol.png" class="card-img-top" alt="card-img-03">
+                            <div class="card-body">
+                                <h5 class="card-title">기권</h5>
+                                <p class="card-text">기권 투표.</p>
+                            </div>
+                        <div class="card-footer">
+                            <input type="radio" id="candidate" value="3" name="human" checked="default"><small class="text-muted">&nbsp;&nbsp;기권</small>
+                        </div>
+                        </div>
                     </div>
-                    <div class="card">
-                      <img id="img" src="https://w7.pngwing.com/pngs/385/780/png-transparent-red-x-illustration-x-mark-check-mark-wrong-sign-angle-symmetry-cross-thumbnail.png" class="card-img-top" alt="card-img-03">
-                      <div class="card-body">
-                        <h5 class="card-title">기권</h5>
-                        <p class="card-text">기권 투표.</p>
-                      </div>
-                      <div class="card-footer">
-                        <input type="radio" id="candidate" value="3" name="human" checked="default"><small class="text-muted">&nbsp;&nbsp;기권</small>
-                      </div>
-                    </div>
-                  </div>
-                <br>
-                <br>투표장: 원천동주민센터 <br>
-                <br><br>
-                <button class="btn btn-primary" id="vote_btn03">투표 완료</button>
-                <br><br>
+                    <br>
+                    <br>투표장: 원천동주민센터 <br>
+                    <br><br>
+                    <button class="btn btn-primary" id="vote_btn03">투표 완료</button>
+                    <br><br>
             </div>   
         </div>
 
@@ -134,26 +131,39 @@
         float: center;
     }
     #img {
-        width: 170px;
-        height: 170px;
+        width: 40%;
+        height: 50%;
         object-fit: cover;
         float: center;
         position:relative;
-        left: 23%;
-        
-}
+        left: 33%;
+    }
 
+    #list_style {
+        padding: 10px 10px 0% 0px;
+        height: 10%;
+    }
 
+    .left-box {
+        float : left;
+    }
+
+    .center-box {
+        float : center;
+    }
+
+    
 </style>
 <script>
     const date = new Date();
      count = 0;
     // 투표버튼 이벤트
     $("#vote_btn03").click(()=>{
-        const VotedCandidateID = $("#candidate").val();
+        const VotedCandidateID =document.querySelector('input[name="human"]:checked').value
         console.log(VotedCandidateID)
         const Location = "원천동주민센터";
-        const Time = date.toString();
+        const Time = date.toLocaleString('ko-kr')
+        console.log(Time)
         const url = "/vote"
         //console.log(param)
 
